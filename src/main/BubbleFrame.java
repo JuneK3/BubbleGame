@@ -1,6 +1,9 @@
 package main;
 
 import javax.swing.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class BubbleFrame extends JFrame {
 	private JLabel backgroundMap;
@@ -9,7 +12,28 @@ public class BubbleFrame extends JFrame {
 	public BubbleFrame() {
 		initObject();
 		initSetting();
+		initListener();
 		setVisible(true); // 패널에 그림을 그릴수 있게됨
+	}
+
+	private void initListener() {
+		addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+//				System.out.println(e.getKeyCode());
+				switch (e.getKeyCode()){
+					case KeyEvent.VK_LEFT:
+						player.left();
+						break;
+					case KeyEvent.VK_RIGHT:
+						player.right();
+						break;
+					case KeyEvent.VK_UP:
+						player.up();
+						break;
+				}
+			}
+		});
 	}
 
 	private void initObject(){
