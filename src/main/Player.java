@@ -1,7 +1,12 @@
 package main;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.swing.*;
 
+@Getter
+@Setter
 public class Player extends JLabel implements Moveable {
 	// 위치 상태
 	private int x;
@@ -12,6 +17,9 @@ public class Player extends JLabel implements Moveable {
 	private boolean right;
 	private boolean up;
 	private boolean down;
+
+	// 플레이어 속도 상태
+	private final int speed = 3;
 
 	private ImageIcon playerR, playerL;
 
@@ -41,18 +49,39 @@ public class Player extends JLabel implements Moveable {
 
 	@Override
 	public void left() {
-		setIcon(playerL);
-		x = x - 10;
-		setLocation(x, y);
+		left = true;
+		new Thread(() -> {
+			while (left) {
+				setIcon(playerL);
+				x = x - speed;
+				setLocation(x, y);
+				try {
+					Thread.sleep(10); // 0.01초
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
 	}
 
 	@Override
 	public void right() {
-		setIcon(playerR);
-		x = x + 10;
-		setLocation(x, y);
+		right = true;
+		new Thread(() -> {
+			while (right) {
+				setIcon(playerR);
+				x = x + speed;
+				setLocation(x, y);
+				try {
+					Thread.sleep(10); // 0.01초
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
 	}
 
+	// left + up, right + up이 가능해야 함
 	@Override
 	public void up() {
 
