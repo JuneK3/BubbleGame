@@ -22,6 +22,10 @@ public class Player extends JLabel implements Moveable {
 	private final int SPEED = 4;
 	private final int JUMP_SPEED = 2;
 
+	// 외벽 충돌 상태
+	private boolean leftWallCrash;
+	private boolean rightWallCrash;
+
 	private ImageIcon playerR, playerL;
 
 	public Player() {
@@ -42,6 +46,9 @@ public class Player extends JLabel implements Moveable {
 		right = false;
 		up = false;
 		down = false;
+
+		leftWallCrash = false;
+		rightWallCrash = false;
 
 		setIcon(playerR);
 		setSize(50, 50);
