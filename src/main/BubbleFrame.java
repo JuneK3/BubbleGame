@@ -62,14 +62,11 @@ public class BubbleFrame extends JFrame {
 
 	private void initObject() {
 		backgroundMap = new JLabel(new ImageIcon("image/backgroundMap.png"));
+//		backgroundMap = new JLabel(new ImageIcon("image/backgroundMapService.png"));
+//		backgroundMap = new JLabel(new ImageIcon("image/test.png"));
 		setContentPane(backgroundMap); // JPanel 자체를 JLabel로 변경
-
 		player = new Player();
 		add(player);
-
-//		backgroundMap.setSize(1000, 600);
-//		backgroundMap.setLocation(300, 300);
-//		add(backgroundMap); // JFrame에 JLabel을 그린다.
 	}
 
 	private void initSetting() {
