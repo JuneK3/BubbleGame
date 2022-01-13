@@ -29,12 +29,23 @@ public class BackgroundPlayerService implements Runnable {
 			Color leftColor = new Color(image.getRGB(player.getX() - 10, player.getY() + 25));
 			Color rightColor = new Color(image.getRGB(player.getX() + 50 + 15, player.getY() + 25));
 
+			// 둘중 하나라도 -1(흰색)이 아닌 경우 바닥 충돌로 인식
+			int bottomColor = image.getRGB(player.getX() + 15, player.getY() + 50 + 5)
+					+ image.getRGB(player.getX() + 50 - 15, player.getY() + 50 + 5);
+
+			// 바닥 충돌 확인
+			if (bottomColor != -2) { // 흰색이 아닌 경우 바닥 충돌로 인식
+//				System.out.println(bottomColor);
+//				System.out.println("바닥 충돌");
+				player.setDown(false);
+			}
+
 			if (leftColor.getRed() == 255 && leftColor.getGreen() == 0 && leftColor.getBlue() == 0) {
-				System.out.println("왼쪽 벽에 충돌");
+//				System.out.println("왼쪽 벽에 충돌");
 				player.setLeft(false);
 				player.setLeftWallCrash(true);
 			} else if (rightColor.getRed() == 255 && rightColor.getGreen() == 0 && rightColor.getBlue() == 0) {
-				System.out.println("오른쪽 벽에 충돌");
+//				System.out.println("오른쪽 벽에 충돌");
 				player.setRight(false);
 				player.setRightWallCrash(true);
 			} else {

@@ -117,7 +117,7 @@ public class Player extends JLabel implements Moveable {
 	public void down() {
 		down = true;
 		new Thread(() -> {
-			for (int i = 0; i < 120 / JUMP_SPEED; i++) {
+			while(down) {
 				y = y + JUMP_SPEED;
 				setLocation(x, y);
 				try {
