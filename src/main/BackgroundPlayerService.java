@@ -38,6 +38,11 @@ public class BackgroundPlayerService implements Runnable {
 //				System.out.println(bottomColor);
 //				System.out.println("바닥 충돌");
 				player.setDown(false);
+			} else {
+				System.out.println(player.isUp() + " " + player.isDown());
+				if (!player.isUp() && !player.isDown()) {
+					player.down();
+				}
 			}
 
 			if (leftColor.getRed() == 255 && leftColor.getGreen() == 0 && leftColor.getBlue() == 0) {
