@@ -39,7 +39,9 @@ public class BackgroundPlayerService implements Runnable {
 //				System.out.println("바닥 충돌");
 				player.setDown(false);
 			} else {
-				System.out.println(player.isUp() + " " + player.isDown());
+//				System.out.println(player.isUp() + " " + player.isDown());
+				// 흰색인 경우 위나 아래로 이동하는 상태가 아닌 경우에만 아래로 하강
+				// 제일 밑의 바닥에 충돌한 경우 setDown(false)로 하강 방지
 				if (!player.isUp() && !player.isDown()) {
 					player.down();
 				}
