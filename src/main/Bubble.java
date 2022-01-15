@@ -7,7 +7,7 @@ import javax.swing.*;
 
 @Getter
 @Setter
-public class Bubble extends JLabel {
+public class Bubble extends JLabel implements Moveable{
 
 	Player player;
 
@@ -53,5 +53,18 @@ public class Bubble extends JLabel {
 	}
 
 
+	@Override
+	public void left() {
+		
+	}
 
+	@Override
+	public void right() {
+
+	}
+
+	@Override
+	public void up() {
+
+	}
 }
