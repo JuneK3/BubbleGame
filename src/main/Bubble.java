@@ -7,7 +7,7 @@ import javax.swing.*;
 
 @Getter
 @Setter
-public class Bubble extends JLabel implements Moveable{
+public class Bubble extends JLabel implements Moveable {
 
 	Player player;
 
@@ -23,14 +23,27 @@ public class Bubble extends JLabel implements Moveable{
 	// 적을 맞춘 상태
 	private int state; // 0(물방울), 1(적을 가둔 물방울)
 
-	private	ImageIcon bubble; // 물방울
-	private	ImageIcon bubbled; // 적을 가둔 물방울
-	private	ImageIcon bomb; // 물방울이 터진 상태
+	private ImageIcon bubble; // 물방울
+	private ImageIcon bubbled; // 적을 가둔 물방울
+	private ImageIcon bomb; // 물방울이 터진 상태
 
 	public Bubble(Player player) {
 		this.player = player;
 		initObject();
 		initSetting();
+		initThread();
+	}
+
+	// 물방울은 대각선 방향이 아닌 한방향으로만 이동하기 때문에
+	// 물방울의 이동을 하나의 Thread가 담당하면 된다.
+	private void initThread() {
+		new Thread(() -> {
+			if (player.getPlayerDirection() == PlayerDirection.LEFT) {
+				left();
+			} else {
+				right();
+			}
+		}).start();
 	}
 
 	private void initSetting() {
@@ -55,16 +68,45 @@ public class Bubble extends JLabel implements Moveable{
 
 	@Override
 	public void left() {
-		
+		left = true;
+		for (int i = 0; i < 400; i++) {
+			x -= 1;
+			setLocation(x, y);
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		up();
 	}
 
 	@Override
 	public void right() {
-
+		right = true;
+		for (int i = 0; i < 400; i++) {
+			x += 1;
+			setLocation(x, y);
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		up();
 	}
 
 	@Override
 	public void up() {
-
+		up = true;
+		while(up){
+			y--;
+			setLocation(x, y);
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
