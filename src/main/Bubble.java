@@ -10,6 +10,7 @@ import javax.swing.*;
 public class Bubble extends JLabel implements Moveable {
 
 	Player player;
+	BackgroundBubbleService bubbleService;
 
 	// 위치 상태
 	private int x;
@@ -63,6 +64,7 @@ public class Bubble extends JLabel implements Moveable {
 		bubble = new ImageIcon("image/bubble.png");
 		bubbled = new ImageIcon("image/bubbled.png");
 		bomb = new ImageIcon("image/bomb.png");
+		bubbleService = new BackgroundBubbleService(this);
 	}
 
 
@@ -72,6 +74,9 @@ public class Bubble extends JLabel implements Moveable {
 		for (int i = 0; i < 400; i++) {
 			x -= 1;
 			setLocation(x, y);
+			if(bubbleService.leftWall()){
+				break;
+			}
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
@@ -87,6 +92,9 @@ public class Bubble extends JLabel implements Moveable {
 		for (int i = 0; i < 400; i++) {
 			x += 1;
 			setLocation(x, y);
+			if(bubbleService.rightWall()){
+				break;
+			}
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
@@ -102,6 +110,9 @@ public class Bubble extends JLabel implements Moveable {
 		while(up){
 			y--;
 			setLocation(x, y);
+			if(bubbleService.topWall()){
+				break;
+			}
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
