@@ -13,6 +13,7 @@ public class BubbleFrame extends JFrame {
 	private BubbleFrame mContext = this;
 	private JLabel backgroundMap;
 	private Player player;
+	private Enemy enemy;
 
 	public BubbleFrame() {
 		initObject();
@@ -78,6 +79,9 @@ public class BubbleFrame extends JFrame {
 		setContentPane(backgroundMap); // JPanel 자체를 JLabel로 변경
 		player = new Player(mContext);
 		add(player);
+		enemy = new Enemy(mContext);
+		add(enemy);
+
 	}
 
 	private void initSetting() {
