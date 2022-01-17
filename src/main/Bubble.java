@@ -34,19 +34,6 @@ public class Bubble extends JLabel implements Moveable {
 		this.player = mContext.getPlayer();
 		initObject();
 		initSetting();
-		initThread();
-	}
-
-	// 물방울은 대각선 방향이 아닌 한방향으로만 이동하기 때문에
-	// 물방울의 이동을 하나의 Thread가 담당하면 된다.
-	private void initThread() {
-		new Thread(() -> {
-			if (player.getPlayerDirection() == PlayerDirection.LEFT) {
-				left();
-			} else {
-				right();
-			}
-		}).start();
 	}
 
 	private void initSetting() {
@@ -129,7 +116,7 @@ public class Bubble extends JLabel implements Moveable {
 
 	private void clearBubble() {
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(3000);
 			setIcon(bomb);
 			Thread.sleep(500);
 			mContext.remove(this); // BubbleFrame의 bubble이 메모리에서 소멸된다.

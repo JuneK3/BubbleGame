@@ -49,8 +49,9 @@ public class BubbleFrame extends JFrame {
 						}
 						break;
 					case KeyEvent.VK_SPACE:
-						Bubble bubble = new Bubble(mContext);
-						add(bubble);
+//						Bubble bubble = new Bubble(mContext);
+//						add(bubble);
+						player.attack();
 						break;
 				}
 			}
@@ -75,7 +76,7 @@ public class BubbleFrame extends JFrame {
 //		backgroundMap = new JLabel(new ImageIcon("image/backgroundMapService.png"));
 //		backgroundMap = new JLabel(new ImageIcon("image/test.png"));
 		setContentPane(backgroundMap); // JPanel 자체를 JLabel로 변경
-		player = new Player();
+		player = new Player(mContext);
 		add(player);
 	}
 
