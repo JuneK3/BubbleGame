@@ -13,6 +13,8 @@ public class Enemy extends JLabel implements Moveable {
 	private int x;
 	private int y;
 
+	private int state; // 0: 살아있는 상태, 1: 물방울에 갇힌 상태
+
 	// 움직임 상태
 	private boolean left;
 	private boolean right;
@@ -47,6 +49,8 @@ public class Enemy extends JLabel implements Moveable {
 		right = false;
 		up = false;
 		down = false;
+
+		state = 0;
 
 		enemyDirection = EnemyDirection.RIGHT;
 		setIcon(enemyR);
