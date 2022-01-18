@@ -9,8 +9,9 @@ import javax.swing.*;
 @Setter
 public class Bubble extends JLabel implements Moveable {
 
-	Player player;
 	BubbleFrame mContext;
+	Player player;
+	Enemy enemy;
 	BackgroundBubbleService bubbleService;
 
 	// 위치 상태
@@ -32,6 +33,7 @@ public class Bubble extends JLabel implements Moveable {
 	public Bubble(BubbleFrame mContext) {
 		this.mContext = mContext;
 		this.player = mContext.getPlayer();
+		this.enemy = mContext.getEnemy();
 		initObject();
 		initSetting();
 	}
@@ -66,6 +68,12 @@ public class Bubble extends JLabel implements Moveable {
 			if (bubbleService.leftWall()) {
 				left = false;
 				break;
+			}
+			if ((Math.abs(x - enemy.getX()) > 40 && Math.abs(x - enemy.getX()) < 60)
+					&& (Math.abs(y - enemy.getY()) >= 0 && Math.abs(y - enemy.getY()) < 50)
+			) {
+				System.out.println("물방울이 적과 충돌");
+				attack();
 			}
 			try {
 				Thread.sleep(1);
@@ -112,6 +120,12 @@ public class Bubble extends JLabel implements Moveable {
 			}
 		}
 		clearBubble(); // 천장에 물방울이 도착하고 나서 3초후 메모리에서 소멸
+	}
+
+	@Override
+	public void attack() {
+		state = 1;
+		setIcon(bubbled);
 	}
 
 	private void clearBubble() {
