@@ -34,7 +34,7 @@ public class BackgroundPlayerService implements Runnable {
 				if (bubble.getState() == 1) {
 					if ((Math.abs(player.getX() - bubble.getX()) < 10) &&
 							Math.abs(player.getY() - bubble.getY()) > 0 && Math.abs(player.getY() - bubble.getY()) < 50) {
-						System.out.println("적군 사살 완료");
+//						System.out.println("적군 사살 완료");
 						bubble.clearBubbled();
 						break;
 					}
