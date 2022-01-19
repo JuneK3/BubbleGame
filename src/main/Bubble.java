@@ -143,7 +143,7 @@ public class Bubble extends JLabel implements Moveable {
 		state = 1;
 		enemy.setState(1);
 		setIcon(bubbled);
-		mContext.remove(enemy); // GC가 즉시 동작하기 않는다.
+		mContext.remove(enemy); // GC가 즉시 동작하지 않는다.
 		mContext.repaint();
 	}
 
@@ -157,5 +157,19 @@ public class Bubble extends JLabel implements Moveable {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void clearBubbled() {
+		new Thread(() -> {
+			try {
+				up = false;
+				setIcon(bomb);
+				Thread.sleep(1000);
+				mContext.remove(this); // BubbleFrame의 bubble이 메모리에서 소멸된다.
+				mContext.repaint(); // BubbleFrame을 다시 그린다. 메모리에 없는 객체는 그리지 않는다.
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}).start();
 	}
 }
