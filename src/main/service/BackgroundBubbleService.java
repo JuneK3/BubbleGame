@@ -1,4 +1,6 @@
-package main;
+package main.service;
+
+import main.component.Bubble;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

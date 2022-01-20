@@ -1,7 +1,11 @@
-package main;
+package main.component;
 
 import lombok.Getter;
 import lombok.Setter;
+import main.service.BackgroundEnemyService;
+import main.BubbleFrame;
+import main.state.EnemyDirection;
+import main.Moveable;
 
 import javax.swing.*;
 

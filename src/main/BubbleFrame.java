@@ -2,6 +2,9 @@ package main;
 
 import lombok.Getter;
 import lombok.Setter;
+import main.component.Enemy;
+import main.component.Player;
+import main.music.BGM;
 
 import javax.swing.*;
 import java.awt.event.KeyAdapter;

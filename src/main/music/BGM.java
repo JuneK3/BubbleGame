@@ -1,4 +1,4 @@
-package main;
+package main.music;
 
 import java.io.File;
 

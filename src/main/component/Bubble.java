@@ -1,7 +1,10 @@
-package main;
+package main.component;
 
 import lombok.Getter;
 import lombok.Setter;
+import main.service.BackgroundBubbleService;
+import main.BubbleFrame;
+import main.Moveable;
 
 import javax.swing.*;
 

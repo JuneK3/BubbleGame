@@ -1,7 +1,11 @@
-package main;
+package main.component;
 
 import lombok.Getter;
 import lombok.Setter;
+import main.service.BackgroundPlayerService;
+import main.BubbleFrame;
+import main.Moveable;
+import main.state.PlayerDirection;
 
 import javax.swing.*;
 import java.util.ArrayList;
