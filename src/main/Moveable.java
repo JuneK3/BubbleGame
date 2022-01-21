@@ -1,5 +1,7 @@
 package main;
 
+import main.component.Enemy;
+
 /**
  * default를 사용하면 인터페이스도 몸체가 있는 메소드를 만들수 있다.
  * Java는 다중상속을 지원하지 않기 때문에 Adapter 패턴을 사용하지 못하는 경우가 발생하므로
@@ -12,4 +14,5 @@ public interface Moveable {
 	public abstract void up();
 	default public void down() {}
 	default public void attack() {}
+	default public void attack(Enemy e) {}
 }

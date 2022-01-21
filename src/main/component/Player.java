@@ -16,6 +16,9 @@ import java.util.List;
 public class Player extends JLabel implements Moveable {
 	private BubbleFrame mContext;
 	private List<Bubble> bubbles;
+	
+	private int state; // 0: 살아있는 상태, 1: 죽은 상태
+	
 	// 위치 상태
 	private int x;
 	private int y;
@@ -37,7 +40,7 @@ public class Player extends JLabel implements Moveable {
 	private boolean leftWallCrash;
 	private boolean rightWallCrash;
 
-	private ImageIcon playerR, playerL;
+	private ImageIcon playerR, playerL, playerRdie, playerLdie;
 
 	public Player(BubbleFrame mContext) {
 		this.mContext = mContext;
@@ -71,6 +74,8 @@ public class Player extends JLabel implements Moveable {
 	private void initObject() {
 		playerR = new ImageIcon("image/playerR.png");
 		playerL = new ImageIcon("image/playerL.png");
+		playerRdie = new ImageIcon("image/playerRdie.png");
+		playerLdie = new ImageIcon("image/playerLdie.png");
 		bubbles = new ArrayList<>();
 	}
 
@@ -79,7 +84,7 @@ public class Player extends JLabel implements Moveable {
 		left = true;
 		playerDirection = PlayerDirection.LEFT;
 		new Thread(() -> {
-			while (left) {
+			while (left && getState() == 0) {
 				setIcon(playerL);
 				x = x - SPEED;
 				setLocation(x, y);
@@ -97,7 +102,7 @@ public class Player extends JLabel implements Moveable {
 		right = true;
 		playerDirection = PlayerDirection.RIGHT;
 		new Thread(() -> {
-			while (right) {
+			while (right && getState() == 0) {
 				setIcon(playerR);
 				x = x + SPEED;
 				setLocation(x, y);
@@ -157,6 +162,24 @@ public class Player extends JLabel implements Moveable {
 			}else{
 				bubble.right();
 			}
+		}).start();
+	}
+
+	public void die() {
+		new Thread(() -> {
+			setState(1);
+			setIcon(PlayerDirection.RIGHT == playerDirection ? playerRdie : playerLdie);
+			try {
+				if(!isUp() && !isDown()) {
+					up();
+				}
+				Thread.sleep(2000);
+				mContext.remove(this);
+				mContext.repaint();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			System.out.println("플레이어 사망.");
 		}).start();
 	}
 }

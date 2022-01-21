@@ -5,10 +5,13 @@ import lombok.Setter;
 import main.component.Enemy;
 import main.component.Player;
 import main.music.BGM;
+import main.state.EnemyDirection;
 
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,7 +19,7 @@ public class BubbleFrame extends JFrame {
 	private BubbleFrame mContext = this;
 	private JLabel backgroundMap;
 	private Player player;
-	private Enemy enemy;
+	private List<Enemy> enemyList;
 
 	public BubbleFrame() {
 		initObject();
@@ -38,24 +41,24 @@ public class BubbleFrame extends JFrame {
 //				System.out.println(e.getKeyCode());
 				switch (e.getKeyCode()) {
 					case KeyEvent.VK_LEFT:
-						if (!player.isLeft() && !player.isLeftWallCrash()) {
+						if (!player.isLeft() && !player.isLeftWallCrash() && player.getState() == 0) {
 							player.left();
 						}
 						break;
 					case KeyEvent.VK_RIGHT:
-						if (!player.isRight() && !player.isRightWallCrash()) {
+						if (!player.isRight() && !player.isRightWallCrash() && player.getState() == 0) {
 							player.right();
 						}
 						break;
 					case KeyEvent.VK_UP:
-						if (!player.isUp() && !player.isDown()) {
+						if (!player.isUp() && !player.isDown() && player.getState() == 0) {
 							player.up();
 						}
 						break;
 					case KeyEvent.VK_SPACE:
-//						Bubble bubble = new Bubble(mContext);
-//						add(bubble);
-						player.attack();
+						if (player.getState() == 0) {
+							player.attack();
+						}
 						break;
 				}
 			}
@@ -82,8 +85,10 @@ public class BubbleFrame extends JFrame {
 		setContentPane(backgroundMap); // JPanel 자체를 JLabel로 변경
 		player = new Player(mContext);
 		add(player);
-		enemy = new Enemy(mContext);
-		add(enemy);
+		enemyList = new ArrayList<Enemy>();
+		enemyList.add(new Enemy(mContext, EnemyDirection.RIGHT));
+		enemyList.add(new Enemy(mContext, EnemyDirection.LEFT));
+		for (Enemy e : enemyList) add(e);
 		new BGM();
 	}
 

@@ -7,15 +7,17 @@ import main.BubbleFrame;
 import main.Moveable;
 
 import javax.swing.*;
+import java.util.List;
 
 @Getter
 @Setter
 public class Bubble extends JLabel implements Moveable {
 
-	BubbleFrame mContext;
-	Player player;
-	Enemy enemy;
-	BackgroundBubbleService bubbleService;
+	private BubbleFrame mContext;
+	private Player player;
+	private List<Enemy> enemyList;
+	private Enemy target = null; // 제거할 적을 저장
+	private BackgroundBubbleService bubbleService;
 
 	// 위치 상태
 	private int x;
@@ -36,7 +38,7 @@ public class Bubble extends JLabel implements Moveable {
 	public Bubble(BubbleFrame mContext) {
 		this.mContext = mContext;
 		this.player = mContext.getPlayer();
-		this.enemy = mContext.getEnemy();
+		this.enemyList = mContext.getEnemyList();
 		initObject();
 		initSetting();
 	}
@@ -65,22 +67,26 @@ public class Bubble extends JLabel implements Moveable {
 	@Override
 	public void left() {
 		left = true;
-		for (int i = 0; i < 400; i++) {
+		Stop:for (int i = 0; i < 400; i++) {
 			x -= 1;
 			setLocation(x, y);
 			if (bubbleService.leftWall()) {
 				left = false;
 				break;
 			}
-			if ((Math.abs(x - enemy.getX()) < 10)
-					&& (Math.abs(y - enemy.getY()) >= 0 && Math.abs(y - enemy.getY()) < 50)
-			) {
+
+			for (Enemy enemy : enemyList) {
+				if ((Math.abs(x - enemy.getX()) < 10)
+						&& (Math.abs(y - enemy.getY()) >= 0 && Math.abs(y - enemy.getY()) < 50)
+				) {
 //				System.out.println("물방울이 적과 충돌");
-				if (enemy.getState() == 0) {
-					attack();
-					break;
+					if (enemy.getState() == 0) {
+						attack(enemy);
+						break Stop;
+					}
 				}
 			}
+
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
@@ -93,22 +99,26 @@ public class Bubble extends JLabel implements Moveable {
 	@Override
 	public void right() {
 		right = true;
-		for (int i = 0; i < 400; i++) {
+		Stop:for (int i = 0; i < 400; i++) {
 			x += 1;
 			setLocation(x, y);
 			if (bubbleService.rightWall()) {
 				right = false;
 				break;
 			}
-			if ((Math.abs(x - enemy.getX()) < 10)
-					&& (Math.abs(y - enemy.getY()) >= 0 && Math.abs(y - enemy.getY()) < 50)
-			) {
+
+			for (Enemy enemy : enemyList) {
+				if ((Math.abs(x - enemy.getX()) < 10)
+						&& (Math.abs(y - enemy.getY()) >= 0 && Math.abs(y - enemy.getY()) < 50)
+				) {
 //				System.out.println("물방울이 적과 충돌");
-				if (enemy.getState() == 0) {
-					attack();
-					break;
+					if (enemy.getState() == 0) {
+						attack(enemy);
+						break Stop;
+					}
 				}
 			}
+
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
@@ -142,10 +152,11 @@ public class Bubble extends JLabel implements Moveable {
 	}
 
 	@Override
-	public void attack() {
+	public void attack(Enemy enemy) {
 		state = 1;
 		enemy.setState(1);
 		setIcon(bubbled);
+		target = enemy;
 		mContext.remove(enemy); // GC가 즉시 동작하지 않는다.
 		mContext.repaint();
 	}
@@ -155,6 +166,7 @@ public class Bubble extends JLabel implements Moveable {
 			Thread.sleep(3000);
 			setIcon(bomb);
 			Thread.sleep(500);
+			mContext.getPlayer().getBubbles().remove(this);
 			mContext.remove(this); // BubbleFrame의 bubble이 메모리에서 소멸된다.
 			mContext.repaint(); // BubbleFrame을 다시 그린다. 메모리에 없는 객체는 그리지 않는다.
 		} catch (InterruptedException e) {
@@ -168,6 +180,8 @@ public class Bubble extends JLabel implements Moveable {
 				up = false;
 				setIcon(bomb);
 				Thread.sleep(1000);
+				mContext.getPlayer().getBubbles().remove(this);
+				mContext.getEnemyList().remove(target);
 				mContext.remove(this); // BubbleFrame의 bubble이 메모리에서 소멸된다.
 				mContext.repaint(); // BubbleFrame을 다시 그린다. 메모리에 없는 객체는 그리지 않는다.
 			} catch (InterruptedException e) {

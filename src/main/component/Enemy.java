@@ -13,6 +13,7 @@ import javax.swing.*;
 @Setter
 public class Enemy extends JLabel implements Moveable {
 	private BubbleFrame mContext;
+	private Player player;
 	// 위치 상태
 	private int x;
 	private int y;
@@ -25,21 +26,32 @@ public class Enemy extends JLabel implements Moveable {
 	private boolean up;
 	private boolean down;
 
-	// 플레이어의 방향
 	private EnemyDirection enemyDirection;
 
-	// 플레이어 속도 상태
 	private final int SPEED = 3;
 	private final int JUMP_SPEED = 1;
 
 	private ImageIcon enemyR, enemyL;
 
-	public Enemy(BubbleFrame mContext) {
+	public Enemy(BubbleFrame mContext, EnemyDirection direction) {
 		this.mContext = mContext;
+		this.player = mContext.getPlayer();
 		initObject();
 		initSetting();
 		initBackgroundEnemyService();
-		right();
+		initEnemyDirection(direction);
+	}
+
+	private void initEnemyDirection(EnemyDirection direction) {
+		if(EnemyDirection.RIGHT == direction) {
+			enemyDirection = EnemyDirection.RIGHT;
+			setIcon(enemyR);
+			right();
+		}else {
+			enemyDirection = EnemyDirection.LEFT;
+			setIcon(enemyL);
+			left();
+		}
 	}
 
 	private void initBackgroundEnemyService() {
@@ -54,11 +66,8 @@ public class Enemy extends JLabel implements Moveable {
 		right = false;
 		up = false;
 		down = false;
-
 		state = 0;
 
-		enemyDirection = EnemyDirection.RIGHT;
-		setIcon(enemyR);
 		setSize(50, 50);
 		setLocation(x, y);
 	}
@@ -77,6 +86,10 @@ public class Enemy extends JLabel implements Moveable {
 				setIcon(enemyL);
 				x = x - SPEED;
 				setLocation(x, y);
+				if (Math.abs(x - player.getX()) < 50 && Math.abs(y - player.getY()) < 50) {
+					if (player.getState() == 0 && getState() == 0)
+						player.die();
+				}
 				try {
 					Thread.sleep(10); // 0.01초
 				} catch (InterruptedException e) {
@@ -95,6 +108,10 @@ public class Enemy extends JLabel implements Moveable {
 				setIcon(enemyR);
 				x = x + SPEED;
 				setLocation(x, y);
+				if (Math.abs(x - player.getX()) < 50 && Math.abs(y - player.getY()) < 50) {
+					if (player.getState() == 0 && getState() == 0)
+						player.die();
+				}
 				try {
 					Thread.sleep(10); // 0.01초
 				} catch (InterruptedException e) {
@@ -112,6 +129,10 @@ public class Enemy extends JLabel implements Moveable {
 			for (int i = 0; i < 120 / JUMP_SPEED; i++) {
 				y = y - JUMP_SPEED;
 				setLocation(x, y);
+				if (Math.abs(x - player.getX()) < 50 && Math.abs(y - player.getY()) < 50) {
+					if (player.getState() == 0 && getState() == 0)
+						player.die();
+				}
 				try {
 					Thread.sleep(5);
 				} catch (InterruptedException e) {
@@ -130,6 +151,10 @@ public class Enemy extends JLabel implements Moveable {
 			while (down) {
 				y = y + JUMP_SPEED;
 				setLocation(x, y);
+				if (Math.abs(x - player.getX()) < 50 && Math.abs(y - player.getY()) < 50) {
+					if (player.getState() == 0 && getState() == 0)
+						player.die();
+				}
 				try {
 					Thread.sleep(3);
 				} catch (InterruptedException e) {
