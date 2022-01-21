@@ -16,9 +16,9 @@ import java.util.List;
 public class Player extends JLabel implements Moveable {
 	private BubbleFrame mContext;
 	private List<Bubble> bubbles;
-	
+
 	private int state; // 0: 살아있는 상태, 1: 죽은 상태
-	
+
 	// 위치 상태
 	private int x;
 	private int y;
@@ -76,7 +76,7 @@ public class Player extends JLabel implements Moveable {
 		playerL = new ImageIcon("image/playerL.png");
 		playerRdie = new ImageIcon("image/playerRdie.png");
 		playerLdie = new ImageIcon("image/playerLdie.png");
-		bubbles = new ArrayList<>();
+		bubbles = new ArrayList<Bubble>();
 	}
 
 	@Override
@@ -153,13 +153,13 @@ public class Player extends JLabel implements Moveable {
 
 	@Override
 	public void attack() {
-		new Thread(()->{
+		new Thread(() -> {
 			Bubble bubble = new Bubble(mContext);
 			mContext.add(bubble);
 			bubbles.add(bubble);
-			if(playerDirection == PlayerDirection.LEFT){
+			if (playerDirection == PlayerDirection.LEFT) {
 				bubble.left();
-			}else{
+			} else {
 				bubble.right();
 			}
 		}).start();
@@ -170,7 +170,7 @@ public class Player extends JLabel implements Moveable {
 			setState(1);
 			setIcon(PlayerDirection.RIGHT == playerDirection ? playerRdie : playerLdie);
 			try {
-				if(!isUp() && !isDown()) {
+				if (!isUp() && !isDown()) {
 					up();
 				}
 				Thread.sleep(2000);
@@ -179,7 +179,7 @@ public class Player extends JLabel implements Moveable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			System.out.println("플레이어 사망.");
 		}).start();
+		mContext.endGame();
 	}
 }

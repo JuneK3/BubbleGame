@@ -184,6 +184,9 @@ public class Bubble extends JLabel implements Moveable {
 				mContext.getEnemyList().remove(target);
 				mContext.remove(this); // BubbleFrame의 bubble이 메모리에서 소멸된다.
 				mContext.repaint(); // BubbleFrame을 다시 그린다. 메모리에 없는 객체는 그리지 않는다.
+				if(mContext.getEnemyList().size() == 0){
+					mContext.endGame();
+				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

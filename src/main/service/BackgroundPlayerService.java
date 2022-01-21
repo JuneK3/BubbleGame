@@ -52,10 +52,10 @@ public class BackgroundPlayerService implements Runnable {
 			// 둘중 하나라도 -1(흰색)이 아닌 경우 바닥 충돌로 인식
 			int bottomColor = image.getRGB(player.getX() + 15, player.getY() + 50 + 5)
 					+ image.getRGB(player.getX() + 50 - 15, player.getY() + 50 + 5);
+//			System.out.println(bottomColor);
 
 			// 바닥 충돌 확인
 			if (bottomColor != -2) { // 흰색이 아닌 경우 바닥 충돌로 인식
-//				System.out.println(bottomColor);
 //				System.out.println("바닥 충돌");
 				player.setDown(false);
 			} else {

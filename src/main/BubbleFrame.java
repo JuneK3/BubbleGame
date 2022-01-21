@@ -3,6 +3,7 @@ package main;
 import lombok.Getter;
 import lombok.Setter;
 import main.component.Enemy;
+import main.component.GameOver;
 import main.component.Player;
 import main.music.BGM;
 import main.state.EnemyDirection;
@@ -20,6 +21,7 @@ public class BubbleFrame extends JFrame {
 	private JLabel backgroundMap;
 	private Player player;
 	private List<Enemy> enemyList;
+	private BGM bgm;
 
 	public BubbleFrame() {
 		initObject();
@@ -89,7 +91,7 @@ public class BubbleFrame extends JFrame {
 		enemyList.add(new Enemy(mContext, EnemyDirection.RIGHT));
 		enemyList.add(new Enemy(mContext, EnemyDirection.LEFT));
 		for (Enemy e : enemyList) add(e);
-		new BGM();
+		bgm = new BGM();
 	}
 
 	private void initSetting() {
@@ -97,6 +99,17 @@ public class BubbleFrame extends JFrame {
 		setLayout(null); // absolute layout으로 자유롭게 그림을 그릴수 있다.
 		setLocationRelativeTo(null); // 창이 우측 상단에서 생기지 않도록 함.
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 윈도우 창을 닫으면 JVM도 같이 종료
+	}
+
+	public void endGame(){
+		bgm.stopBGM();
+		add(new GameOver());
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.exit(0);
 	}
 
 	public static void main(String[] args) {
